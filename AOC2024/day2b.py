@@ -1,33 +1,40 @@
-# AOC 2024 Day 1
+# AOC 2024 Day 2
 
-# read input
+# process each line of input as it comes
 
-n = 1000  # points
-l1, l2 = [], []
+n = 1000
+count = 0
 
 for _ in range(n):
 
-    a, b = map(int, input().split())
-    l1.append(a)
-    l2.append(b)
+    li = list(map(int, input().split()))
+    ascending = descending = 0
+    flag = False
 
-# find how many times each number is in the right list
+    # remove each index and check for validity
+    for i in range(len(li)):
 
-mp = dict()
-for i in range(n):
+        new_li = li[0:i] + li[i+1:len(li)]
+        ascending = descending = True
 
-    if l2[i] in mp:
-        mp[l2[i]] += 1
-    else:
-        mp[l2[i]] = 1
+        # check for ascending
+        for j in range(len(new_li)-1):
 
-# find the answer
+            if not (1 <= new_li[j+1] - new_li[j] <= 3):
+                ascending = False
 
-answer = 0
-for i in range(n):
+        # check for descending
+        for j in range(len(new_li)-1):
 
-    if l1[i] in mp:
-        answer += l1[i] * mp[l1[i]]
+            if not (-3 <= new_li[j+1] - new_li[j] <= -1):
+                descending = False
+
+        if ascending or descending:
+            flag = True
+
+    if flag:
+        count += 1
 
 
-print(answer)
+print(count)
+
